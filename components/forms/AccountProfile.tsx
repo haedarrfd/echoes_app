@@ -6,7 +6,6 @@ import { UserValidation } from "@/lib/validations/user";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,10 +31,10 @@ interface AccountProfileProps {
     bio: string;
     image: string;
   };
-  btnTitle: string;
+  btnTitle?: string;
 }
 
-const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
+const AccountProfile = ({ user, btnTitle = "Submit" }: AccountProfileProps) => {
   // State for Image Upload
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing("media");
@@ -221,7 +220,7 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
           )}
         />
         <Button type="submit" className="bg-primary-500">
-          Submit
+          {btnTitle}
         </Button>
       </form>
     </Form>

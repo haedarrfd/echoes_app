@@ -1,6 +1,34 @@
 import { fetchUserPosts } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import EchoCard from "../cards/EchoCard";
+import { fetchCommunityPosts } from "@/lib/actions/community.actions";
+
+interface Result {
+  name: string;
+  image: string;
+  id: string;
+  echos: {
+    _id: string;
+    text: string;
+    parentId: string | null;
+    author: {
+      name: string;
+      image: string;
+      id: string;
+    };
+    community: {
+      id: string;
+      name: string;
+      image: string;
+    } | null;
+    createdAt: string;
+    children: {
+      author: {
+        image: string;
+      };
+    }[];
+  }[];
+}
 
 interface EchoesTabProps {
   currentUserId: string;
@@ -13,8 +41,14 @@ const EchoesTab = async ({
   accountId,
   accountType,
 }: EchoesTabProps) => {
-  // Fetch Profile
-  let result = await fetchUserPosts(accountId);
+  let result: Result;
+
+  if (accountType === "Community") {
+    result = await fetchCommunityPosts(accountId);
+  } else {
+    result = await fetchUserPosts(accountId);
+  }
+
   if (!result) redirect("/");
 
   return (
@@ -35,7 +69,11 @@ const EchoesTab = async ({
                   id: echo.author.id,
                 }
           }
-          community={echo.community}
+          community={
+            accountType === "Community"
+              ? { name: result.name, id: result.id, image: result.image }
+              : echo.community
+          }
           createdAt={echo.createdAt}
           comments={echo.children}
         />

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { SignOutButton, SignedIn, useAuth } from "@clerk/nextjs";
 
-export function LeftSidebar() {
+function LeftSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const { userId } = useAuth();

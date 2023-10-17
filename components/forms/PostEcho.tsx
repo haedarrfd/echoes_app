@@ -6,7 +6,6 @@ import { EchoValidation } from "@/lib/validations/echo";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,10 +16,12 @@ import { Textarea } from "@/components/ui/textarea";
 import * as z from "zod";
 import { usePathname, useRouter } from "next/navigation";
 import { createEcho } from "@/lib/actions/echo.actions";
+import { useOrganization } from "@clerk/nextjs";
 
 function PostEcho({ userId }: { userId: string }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { organization } = useOrganization();
 
   // Form Validation
   const form = useForm({
@@ -35,7 +36,7 @@ function PostEcho({ userId }: { userId: string }) {
     await createEcho({
       text: values.echo,
       author: userId,
-      communityId: null,
+      communityId: organization ? organization.id : null,
       path: pathname,
     });
 

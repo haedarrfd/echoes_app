@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function BottomBar() {
+function BottomBar() {
   const pathname = usePathname();
 
   return (
@@ -29,7 +29,7 @@ export function BottomBar() {
                 height={25}
               />
               <p className="text-subtle-medium text-light-1 max-sm:hidden">
-                {/* /\s+/ = Search Regxp */}
+                {/* /\s+/ = Search Regxp/ambil kata pertama string */}
                 {link.label.split(/\s+/)[0]}
               </p>
             </Link>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProfileHeaderProps {
   accountId: string;
@@ -41,6 +42,21 @@ const ProfileHeader = ({
             <p className="text-base-medium text-gray-1">@{username}</p>
           </div>
         </div>
+
+        {accountId === authUserId && type !== "Community" && (
+          <Link href="/profile/edit">
+            <div className="flex cursor-pointer gap-4 rounded-lg bg-dark-3 px-4 py-2">
+              <Image
+                src="/assets/edit.svg"
+                alt="Edit Profile"
+                width={20}
+                height={20}
+              />
+
+              <p className="text-light-2 max-sm:hidden">Edit</p>
+            </div>
+          </Link>
+        )}
       </div>
 
       {/* Community */}

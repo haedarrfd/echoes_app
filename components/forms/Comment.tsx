@@ -6,16 +6,14 @@ import { CommentValidation } from "@/lib/validations/echo";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as z from "zod";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { addCommentToEcho } from "@/lib/actions/echo.actions";
 
@@ -26,7 +24,6 @@ interface CommentProps {
 }
 
 const Comment = ({ echoId, currentUserImg, currentUserId }: CommentProps) => {
-  const router = useRouter();
   const pathname = usePathname();
 
   // Form Validation

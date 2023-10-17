@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { dark } from "@clerk/themes";
 
-export function TopBar() {
+function TopBar() {
   return (
     <nav className="topbar">
       {/* Logo Navbar */}
@@ -13,7 +13,7 @@ export function TopBar() {
       </Link>
 
       <div className="flex items-center gap-1">
-        {/* it'll appear on mobile devices */}
+        {/* it'll appear only mobile devices */}
         <div className="block md:hidden">
           <SignedIn>
             <SignOutButton>

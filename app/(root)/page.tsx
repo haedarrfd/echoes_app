@@ -1,11 +1,25 @@
 import EchoCard from "@/components/cards/EchoCard";
+import Pagination from "@/components/shared/Pagination";
 import { fetchPosts } from "@/lib/actions/echo.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-export default async function Home() {
-  const result = await fetchPosts(1, 30);
+async function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
   const user = await currentUser();
-  // console.log(result);
+  if (!user) return null;
+
+  const userInfo = await fetchUser(user.id);
+  if (!userInfo?.onboarded) redirect("/onboarding");
+
+  const result = await fetchPosts(
+    searchParams.page ? +searchParams.page : 1,
+    30
+  );
 
   return (
     <div>
@@ -20,7 +34,7 @@ export default async function Home() {
               <EchoCard
                 key={post._id}
                 id={post._id}
-                currentUserId={user?.id || ""}
+                currentUserId={user?.id}
                 parentId={post.parentId}
                 content={post.text}
                 author={post.author}
@@ -32,6 +46,14 @@ export default async function Home() {
           </>
         )}
       </section>
+
+      <Pagination
+        path="/"
+        pageNumber={searchParams?.page ? +searchParams.page : 1}
+        isNext={result.isNext}
+      />
     </div>
   );
 }
+
+export default Home;
